@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+yt-dlp
+pymupdf
+python-pptx
+python-multipart
+pywebview

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استوديو التحميل والتحويل الشامل Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: #0b1120;
+            color: #f8fafc;
+        }
+        .card {
+            background: rgba(30, 41, 59, 0.88);
+            border: 1px solid #334155;
+            transition: border-color 0.25s ease, transform 0.2s ease;
+        }
+        .card:hover {
+            border-color: #3b82f6;
+        }
+        .btn-grad {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        }
+        .btn-grad:hover {
+            opacity: 0.94;
+            transform: scale(0.995);
+        }
+        .progress-bar-stripes {
+            background-image: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.16) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.16) 50%,
+                rgba(255, 255, 255, 0.16) 75%,
+                transparent 75%,
+                transparent
+            );
+            background-size: 1rem 1rem;
+            animation: progress-animation 1s linear infinite;
+        }
+        @keyframes progress-animation {
+            from { background-position: 1rem 0; }
+            to { background-position: 0 0; }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-5 md:p-10">
+    <div class="max-w-5xl mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+                المحول الذكي الشامل Pro
+            </h1>
+            <p class="text-slate-400 text-sm md:text-base">
+                تحميل عام للفيديو والقوائم • تحويل فوري إلى MP3 • أدوات PDF و PowerPoint متقدمة
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- 1. التحميل العام / استخراج MP3 من رابط -->
+            <section class="card p-6 rounded-2xl shadow-xl border-blue-500/70 border-2 md:col-span-2">
+                <div class="text-center mb-5">
+                    <div class="text-4xl mb-2">🌐</div>
+                    <h2 class="text-2xl font-bold">التحميل العام المطور (فيديو / قوائم تشغيل / صوت مباشر)</h2>
+                    <p class="text-xs text-slate-400 mt-1">
+                        أدخل رابط الفيديو أو القائمة واختر الصيغة والجودة ومجلد الحفظ
+                    </p>
+                </div>
+
+                <form id="downloadForm" class="space-y-4 max-w-2xl mx-auto w-full">
+                    <div>
+                        <label class="block text-sm text-slate-300 mb-1">الرابط (Video أو Playlist):</label>
+                        <input
+                            type="url"
+                            name="url"
+                            required
+                            placeholder="https://..."
+                            dir="ltr"
+                            class="w-full p-3 rounded-lg bg-slate-800 border border-slate-600 focus:outline-none focus:border-blue-500 text-left"
+                        >
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-slate-300 mb-1">نوع التحميل:</label>
+                            <select
+                                name="mode"
+                                class="w-full p-3 rounded-lg bg-slate-800 border border-slate-600 focus:outline-none focus:border-blue-500"
+                            >
+                                <option value="video_best" selected>فيديو بأعلى جودة (MP4)</option>
+                                <option value="video_1080">فيديو حتى 1080p (MP4)</option>
+                                <option value="audio_mp3">تحويل مباشر إلى صوت (MP3)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm text-slate-300 mb-1">جودة MP3:</label>
+                            <select
+                                name="bitrate"
+                                class="w-full p-3 rounded-lg bg-slate-800 border border-slate-600 focus:outline-none focus:border-blue-500"
+                            >
+                                <option value="192k" selected>192 kbps (متوازن)</option>
+                                <option value="320k">320 kbps (أعلى جودة)</option>
+                                <option value="128k">128 kbps (أسرع / أصغر)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-300 mb-1">مسار الحفظ (اختياري — يُحفظ تلقائياً في Downloads إذا تُرك فارغاً):</label>
+                        <input
+                            type="text"
+                            name="save_path"
+                            placeholder="مثال: C:\\Downloads أو اتركه فارغاً"
+                            dir="ltr"
+                            class="w-full p-3 rounded-lg bg-slate-800 border border-slate-600 focus:outline-none focus:border-blue-500 text-left"
+                        >
+                    </div>
+
+                    <button
+                        type="submit"
+                        id="downloadBtn"
+                        class="btn-grad w-full py-3 rounded-lg font-bold text-lg transition shadow-lg"
+                    >
+                        🚀 بدء التحميل الآن
+                    </button>
+                </form>
+
+                <div id="progressContainer" class="hidden mt-6 max-w-2xl mx-auto bg-slate-900/90 p-4 rounded-xl border border-slate-700">
+                    <div class="flex justify-between items-center text-sm mb-2">
+                        <span id="progressFile" class="truncate max-w-[75%] text-blue-300 font-bold">
+                            جاري تهيئة المهمة...
+                        </span>
+                        <span id="progressPercent" class="font-bold text-emerald-400">0%</span>
+                    </div>
+
+                    <div class="w-full bg-slate-800 rounded-full h-4 mb-2 overflow-hidden">
+                        <div
+                            id="progressBar"
+                            class="bg-blue-500 h-4 rounded-full progress-bar-stripes transition-all duration-300"
+                            style="width: 0%"
+                        ></div>
+                    </div>
+
+                    <div class="flex flex-wrap justify-between gap-2 text-xs text-slate-400">
+                        <span id="progressSpeed">السرعة: 0MiB/s</span>
+                        <span id="progressEta">الوقت المتبقي: --:--</span>
+                        <span id="progressMsg" class="text-slate-300"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. مركز أدوات PDF المتقدم -->
+            <section class="card p-6 rounded-2xl shadow-xl flex flex-col justify-between">
+                <div>
+                    <div class="text-blue-400 text-3xl mb-3">📄 ➔ 📊</div>
+                    <h2 class="text-xl font-bold mb-2">مركز أدوات PDF المتقدم</h2>
+                    <p class="text-xs text-slate-400 mb-4">
+                        تحويل إلى PowerPoint قابل للتعديل أو صور، دمج ملفات PDF، أو استخراج النصوص
+                    </p>
+                </div>
+
+                <form action="/pdf-tools/" method="post" enctype="multipart/form-data" class="space-y-4">
+                    <input
+                        type="file"
+                        name="files"
+                        multiple
+                        accept=".pdf"
+                        required
+                        class="block w-full text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer"
+                    >
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">اختر العملية:</label>
+                        <select
+                            name="action"
+                            class="w-full p-2.5 rounded-lg bg-slate-800 border border-slate-600 text-sm focus:outline-none focus:border-blue-500"
+                        >
+                            <option value="pptx_editable" selected>PDF إلى PowerPoint قابل للتعديل (نصوص)</option>
+                            <option value="pptx_visual">PDF إلى PowerPoint شرائح عالية الدقة (2x)</option>
+                            <option value="merge_pdf">دمج عدة ملفات PDF في ملف واحد</option>
+                            <option value="extract_txt">استخراج كامل النص إلى ملف TXT</option>
+                        </select>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 w-full py-3 rounded-lg font-bold transition"
+                    >
+                        بدء التحويل / التنفيذ
+                    </button>
+                </form>
+            </section>
+
+            <!-- 3. تحويل فوري لملف فيديو إلى MP3 -->
+            <section class="card p-6 rounded-2xl shadow-xl flex flex-col justify-between">
+                <div>
+                    <div class="text-emerald-400 text-3xl mb-3">🎵</div>
+                    <h2 class="text-xl font-bold mb-2">تحويل فوري للفيديو إلى MP3</h2>
+                    <p class="text-xs text-slate-400 mb-4">
+                        ارفع ملف الفيديو لاستخراج الصوت بصيغة MP3 وتنزيله مباشرة
+                    </p>
+                </div>
+
+                <form action="/convert-video/" method="post" enctype="multipart/form-data" class="space-y-4">
+                    <input
+                        type="file"
+                        name="file"
+                        required
+                        accept="video/*,audio/*"
+                        class="block w-full text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer"
+                    >
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">جودة الصوت MP3:</label>
+                        <select
+                            name="bitrate"
+                            class="w-full p-2.5 rounded-lg bg-slate-800 border border-slate-600 text-sm focus:outline-none focus:border-emerald-500"
+                        >
+                            <option value="192k" selected>192 kbps (سريع ومتوازن)</option>
+                            <option value="320k">320 kbps (عالي الجودة)</option>
+                            <option value="128k">128 kbps (فائق السرعة)</option>
+                        </select>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="bg-emerald-600 hover:bg-emerald-700 w-full py-3 rounded-lg font-bold transition"
+                    >
+                        تحويل فوري إلى MP3
+                    </button>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('downloadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const btn = document.getElementById('downloadBtn');
+            const progressContainer = document.getElementById('progressContainer');
+
+            btn.disabled = true;
+            btn.innerHTML = '⏳ جاري بدء المهمة...';
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            progressContainer.classList.remove('hidden');
+
+            let progressInterval = null;
+
+            const resetButton = () => {
+                if (progressInterval) clearInterval(progressInterval);
+                btn.disabled = false;
+                btn.innerHTML = '🚀 بدء التحميل الآن';
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            };
+
+            try {
+                const startRes = await fetch('/download-universal/', {
+                    method: 'POST',
+                    body: formData
+                });
+                const startData = await startRes.json();
+
+                if (!startRes.ok || !startData.job_id) {
+                    throw new Error(startData.detail || startData.message || 'تعذر بدء التحميل');
+                }
+
+                const jobId = startData.job_id;
+
+                progressInterval = setInterval(async () => {
+                    try {
+                        const res = await fetch(`/progress/${encodeURIComponent(jobId)}`);
+                        if (!res.ok) return;
+                        const data = await res.json();
+
+                        const pctText = data.percent || '0%';
+                        const numericPct = parseFloat(pctText.replace('%', ''));
+                        if (!Number.isNaN(numericPct)) {
+                            document.getElementById('progressBar').style.width = `${Math.min(100, Math.max(0, numericPct))}%`;
+                        }
+
+                        document.getElementById('progressPercent').innerText = pctText;
+                        document.getElementById('progressSpeed').innerText = `السرعة: ${data.speed || '0MiB/s'}`;
+                        document.getElementById('progressEta').innerText = `الوقت المتبقي: ${data.eta || '--:--'}`;
+                        document.getElementById('progressMsg').innerText = data.message || '';
+
+                        if (data.status === 'processing') {
+                            document.getElementById('progressFile').innerText =
+                                'جاري معالجة ودمج الملف أو الانتقال للعنصر التالي... ⏳';
+                        } else if (data.filename) {
+                            document.getElementById('progressFile').innerText = data.filename;
+                        }
+
+                        if (data.status === 'done' || data.status === 'error') {
+                            resetButton();
+                            if (data.status === 'done') {
+                                document.getElementById('progressBar').style.width = '100%';
+                                document.getElementById('progressPercent').innerText = '100%';
+                                document.getElementById('progressFile').innerText = '✅ اكتملت العملية بنجاح!';
+                                alert('✅ اكتملت العملية بنجاح!');
+                            } else {
+                                const errMsg = data.message || data.filename || 'حدث خطأ أثناء التنفيذ';
+                                document.getElementById('progressFile').innerText = `❌ ${errMsg}`;
+                                alert(`❌ حدثت مشكلة: ${errMsg}`);
+                            }
+                        }
+                    } catch (err) {
+                        console.error('Error fetching progress:', err);
+                    }
+                }, 900);
+            } catch (err) {
+                resetButton();
+                document.getElementById('progressFile').innerText = `❌ ${err.message}`;
+                alert(`❌ ${err.message}`);
+            }
+        });
+    </script>
+</body>
+</html>
